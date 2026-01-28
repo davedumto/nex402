@@ -137,7 +137,7 @@ export default function Home() {
                 <div className="flex items-center gap-3">
                   <div className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50" />
                   <span className="text-zinc-300 font-medium">
-                    Aptos Wallet
+                    {walletAddress ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : 'Aptos Wallet'}
                   </span>
                 </div>
                 <span className="text-green-400 font-semibold text-sm uppercase tracking-wider">
@@ -222,7 +222,7 @@ export default function Home() {
                   <span className="flex items-center justify-center gap-2">
                     🥠 Open Fortune Cookie
                     <span className="text-sm font-normal opacity-80">
-                      (0.01 APT)
+                      (0.01 USDC)
                     </span>
                   </span>
                 )}
@@ -233,7 +233,7 @@ export default function Home() {
 
         {/* Footer */}
         <div className="text-center space-y-1 mt-4">
-          <p className="text-zinc-200 text-sm">Aptos Testnet • APT</p>
+          <p className="text-zinc-200 text-sm">Aptos Testnet • USDC</p>
         </div>
       </main>
 

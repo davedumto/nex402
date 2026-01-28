@@ -14,14 +14,14 @@ const facilitator = new HTTPFacilitatorClient({
 // 2. Define Aptos Scheme and register custom parsers if needed
 const aptosScheme = new ExactAptosScheme();
 aptosScheme.registerMoneyParser(async (amount: number, network: string) => {
-    // 1 APT = 100,000,000 Octas
-    const decimals = 8;
+    // USDC = 6 decimals on Aptos
+    const decimals = 6;
     const atomicAmount = BigInt(Math.round(amount * Math.pow(10, decimals))).toString();
 
     return {
         amount: atomicAmount,
-        asset: "0x000000000000000000000000000000000000000000000000000000000000000a", // Native APT Metadata Object (0xa)
-        extra: { symbol: "APT" }
+        asset: "0x69091fbab5f7d635ee7ac5098cf0c1efbe31d68fec0f2cd565e8d168daf52832", // USDC Fungible Asset
+        extra: { symbol: "USDC" }
     };
 });
 
@@ -36,7 +36,7 @@ const fortuneRoutes = {
             {
                 scheme: "exact" as const,
                 payTo: PAY_TO_ADDRESS as `0x${string}`,
-                price: "0.01", // 0.01 APT
+                price: "0.01", // 0.01 USDC
                 network: "aptos:2" as Network,
             },
         ],
