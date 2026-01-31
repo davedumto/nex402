@@ -13,7 +13,7 @@ import path from 'path';
  * @param {string} appName - Name of the application directory
  */
 export async function initApp(appName) {
-  console.log(chalk.green.bold('\n⚡ x402\n'));
+  console.log(chalk.green.bold('\n⚡ x402 builder ⚡\n'));
   console.log(chalk.cyan(`Creating new x402 app: ${appName}\n`));
 
   const spinner = ora('Downloading template...').start();
@@ -52,7 +52,7 @@ export async function initApp(appName) {
     console.log(chalk.cyan('Next steps:\n'));
     console.log(chalk.white(`  cd ${appName}`));
     console.log(chalk.white('  npm install'));
-    console.log(chalk.white('  npx x402 wallet create  # Generate a wallet'));
+    console.log(chalk.white('  npx buildx402 wallet create  # Generate a wallet'));
     console.log(chalk.white('  # Copy the env vars to .env.local'));
     console.log(chalk.white('  npm run dev\n'));
 
