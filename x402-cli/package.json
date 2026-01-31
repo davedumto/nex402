@@ -1,11 +1,11 @@
 {
-  "name": "create-x402-app",
+  "name": "x402",
   "version": "1.0.0",
   "description": "CLI tool to scaffold x402 payment-gated Next.js applications on Aptos",
   "main": "bin/index.js",
   "type": "module",
   "bin": {
-    "create-x402-app": "./bin/index.js"
+    "x402": "./bin/index.js"
   },
   "scripts": {
     "test": "node bin/index.js test-app"

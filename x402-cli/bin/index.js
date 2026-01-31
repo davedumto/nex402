@@ -18,7 +18,7 @@ import chalk from 'chalk';
 const program = new Command();
 
 program
-  .name('create-x402-app')
+  .name('x402')
   .description('Scaffold x402 payment-gated Next.js apps on Aptos')
   .version('1.0.0');
 
@@ -27,8 +27,8 @@ program
   .argument('[app-name]', 'Name of your application')
   .action(async (appName) => {
     if (!appName) {
-      console.log(chalk.yellow('\nUsage: npx create-x402-app <app-name>'));
-      console.log(chalk.yellow('   or: npx create-x402-app wallet create\n'));
+      console.log(chalk.yellow('\nUsage: npx x402 <app-name>'));
+      console.log(chalk.yellow('   or: npx x402 wallet create\n'));
       process.exit(1);
     }
     await initApp(appName);
