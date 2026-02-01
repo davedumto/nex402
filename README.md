@@ -1,4 +1,4 @@
-# x402 Next.js Starter 🚀
+# x402 Next.js Starter
 
 > Production-ready template for building payment-gated APIs on Aptos using the x402 protocol (HTTP 402 Payment Required)
 
@@ -6,7 +6,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
 [![Aptos](https://img.shields.io/badge/Aptos-Testnet-00D4AA)](https://aptos.dev/)
 
-## ⚡ Quick Start
+## Quick Start
 
 ### Option 1: Use the CLI (Recommended)
 
@@ -22,13 +22,13 @@ npm run dev
 ### Option 2: Clone This Repository
 
 ```bash
-git clone https://github.com/davedumto/nex402.git
-cd nex402
+git clone https://github.com/davedumto/buildx402.git
+cd buildx402
 npm install
 npm run dev
 ```
 
-## 🎯 What is This?
+## What is This?
 
 This is a **production-ready template** for building pay-per-request APIs using:
 - **x402 Protocol** - HTTP 402 Payment Required standard
@@ -37,41 +37,102 @@ This is a **production-ready template** for building pay-per-request APIs using:
 - **TypeScript** - Type-safe development
 
 Perfect for:
-- 💰 Monetizing APIs without subscriptions
-- 🌍 Cross-border payments (ideal for African use cases)
-- 🎨 NFT minting APIs
-- 📊 Premium data access
-- 🎥 Pay-per-view content
+- Monetizing APIs without subscriptions
+- Cross-border payments
+- NFT minting APIs
+- Premium data access
+- Pay-per-view content
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 User Interface (Terminal Theme)
-         ↓
+         |
 [User clicks "EXECUTE_REQUEST"]
-         ↓
+         |
 Frontend: x402 Client
-         ↓
+         |
 Middleware: Payment Validation (HTTP 402)
-         ↓
+         |
 Aptos Blockchain (0.01 USDC payment)
-         ↓
+         |
 API Endpoint: Protected Data
-         ↓
+         |
 Response: JSON Data
 ```
 
-## 📦 What's Included
+## What's Included
 
-- ✅ **Payment Middleware** - Pre-configured x402 proxy
-- ✅ **Developer UI** - Terminal-themed interface
-- ✅ **Wallet Integration** - Aptos SDK with private key management
-- ✅ **Example API** - `/api/fortune` endpoint (0.01 USDC)
-- ✅ **TypeScript** - Full type safety
-- ✅ **Tailwind CSS** - Utility-first styling
-- ✅ **Production Ready** - Vercel deployment config
+- **Payment Middleware** - Pre-configured x402 proxy (`middleware.ts`)
+- **Developer UI** - Terminal-themed interface
+- **Wallet Integration** - Aptos SDK with private key management
+- **Example API** - `/api/fortune` endpoint (0.01 USDC)
+- **TypeScript** - Full type safety
+- **Tailwind CSS** - Utility-first styling
+- **Production Ready** - Vercel deployment config
 
-## 🚀 Setup Guide
+## CLI Toolkit
+
+The `buildx402` CLI is more than a scaffolder — it's a full developer toolkit for the x402 protocol.
+
+```bash
+npx buildx402 <app-name>                    # Scaffold a new x402 app
+npx buildx402 wallet create                  # Generate an Aptos wallet
+npx buildx402 inspect <url>                  # Inspect any x402 endpoint
+npx buildx402 pay <url> --key 0xYOUR_KEY     # Pay and fetch any x402 endpoint
+```
+
+### Inspect an Endpoint
+
+See the payment requirements of any x402-protected API without paying:
+
+```bash
+npx buildx402 inspect https://your-app.vercel.app/api/fortune
+```
+
+```
+  x402 Endpoint Detected!
+
+  URL:           https://your-app.vercel.app/api/fortune
+  x402 Version:  2
+  Description:   Your Fortune Awaits
+  Content Type:  application/json
+
+  Payment Options (1):
+
+  Scheme:        exact
+  Price:         0.01 USDC
+  Raw Amount:    10000 atomic units
+  Network:       Aptos Testnet
+  Pay To:        0xaaea...e6f4
+  Sponsored:     true
+```
+
+### Pay an Endpoint
+
+Pay and fetch any x402 endpoint directly from the terminal:
+
+```bash
+npx buildx402 pay https://your-app.vercel.app/api/fortune --key 0xYOUR_PRIVATE_KEY
+```
+
+```
+  Wallet loaded: 0xaaea4890...49e6f4
+  x402 client ready
+
+  Status: 200 OK
+
+  Payment Receipt:
+  Transaction:   0x4bd6...e9a6
+  Explorer:      https://explorer.aptoslabs.com/txn/0x4bd6...e9a6?network=testnet
+
+  Response:
+  {
+    "fortune": "Your keys, your fortune."
+  }
+```
+
+## Setup Guide
 
 ### 1. Install Dependencies
 
@@ -114,11 +175,11 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000)
 
-## 🎨 Customization
+## Customization
 
 ### Change API Pricing
 
-Edit `proxy.ts`:
+Edit `middleware.ts`:
 
 ```typescript
 const paymentRoutes = {
@@ -134,7 +195,7 @@ const paymentRoutes = {
 ### Add New Payment-Gated Routes
 
 1. **Create the API endpoint** in `app/api/your-route/route.ts`
-2. **Add to proxy.ts**:
+2. **Add to middleware.ts**:
    ```typescript
    "/api/your-route": {
      accepts: [{
@@ -160,49 +221,41 @@ Edit `app/page.tsx` - The template uses a terminal/developer theme with:
 - Scanline effects
 - Command-line aesthetics
 
-## 📂 Project Structure
+## Project Structure
 
 ```
-x402-aptos-starter/
+buildx402/
 ├── app/
 │   ├── api/
-│   │   └── fortune/route.ts    # Protected API endpoint (returns fortune)
+│   │   └── fortune/route.ts    # Protected API endpoint
 │   ├── page.tsx                # Terminal UI with x402 integration
 │   ├── layout.tsx              # Root layout
 │   ├── providers.tsx           # React providers
 │   └── globals.css             # Global styles
-├── proxy.ts               # x402 payment middleware (well-documented)
-├── x402-cli/                   # CLI tool for scaffolding
-│   ├── bin/index.js           # CLI entry point
+├── middleware.ts                # x402 payment middleware
+├── x402-cli/                   # CLI developer toolkit
+│   ├── bin/index.js            # CLI entry point
 │   ├── src/
-│   │   ├── commands.js        # Init command (degit)
-│   │   └── wallet.js          # Wallet generation
+│   │   ├── commands.js         # Scaffold command
+│   │   ├── wallet.js           # Wallet generation
+│   │   ├── inspect.js          # Endpoint inspector
+│   │   └── pay.js              # Payment client
 │   └── package.json
-├── .env.example               # Environment template
+├── .env.example                # Environment template
 ├── package.json
 └── README.md
 ```
 
-## 🔐 Security Best Practices
+## Security Best Practices
 
-⚠️ **IMPORTANT**:
+**IMPORTANT**:
 - Never commit `.env.local` to version control
 - Use testnet ONLY for development
 - For production, use hardware wallets or secure key management systems
 - Rotate private keys regularly
 - Monitor wallet balances
 
-## 🌍 African Use Cases
-
-This template was designed with African markets in mind:
-
-1. **Cross-Border Content** - Nollywood/Afrobeats creators can sell directly to fans across borders
-2. **Micro-Education** - Pay-per-lesson educational content (0.10 USDC per lesson)
-3. **Gig-Data Economy** - Pay users for completing tasks, converting to airtime
-
-See [brainstorming.md](brainstorming.md) for more ideas.
-
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -212,9 +265,10 @@ See [brainstorming.md](brainstorming.md) for more ideas.
 | **Currency** | USDC (Aptos Fungible Asset) |
 | **Styling** | Tailwind CSS 4 |
 | **Type Safety** | TypeScript 5 |
+| **CLI** | Commander.js, Chalk, Ora |
 | **Deployment** | Vercel |
 
-## 📚 Resources
+## Resources
 
 - [x402 Protocol Documentation](https://github.com/rvk-utd/x402)
 - [Aptos Developer Docs](https://aptos.dev)
@@ -222,22 +276,14 @@ See [brainstorming.md](brainstorming.md) for more ideas.
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Aptos Faucet](https://aptos.dev/en/network/faucet)
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! See the [implementation_plan.md](implementation_plan.md) for planned features.
 
-## 📝 License
+## License
 
 MIT License - see [LICENSE](LICENSE) file for details
 
-## 🎓 Hackathon Notes
-
-This project was built for the Aptos x x402 hackathon. Key features:
-- ⚡ Sub-5-hour build time
-- 🎯 Production-ready out of the box
-- 🛠️ Comprehensive CLI tooling
-- 📖 Extensively documented
-
 ---
 
-Built with ❤️ for the Aptos ecosystem
+Built for the Aptos x x402 Hackathon
