@@ -7,6 +7,8 @@ import chalk from 'chalk';
 import ora from 'ora';
 import fs from 'fs';
 import path from 'path';
+import { execSync } from 'child_process';
+import readline from 'readline';
 
 /**
  * Initialize a new x402 app by cloning the template
@@ -47,17 +49,47 @@ export async function initApp(appName) {
 
     setupSpinner.succeed(chalk.green('Project setup complete!'));
 
-    // Success message
-    console.log(chalk.green.bold('\n✅ Success! Your x402 app is ready.\n'));
-    console.log(chalk.cyan('Next steps:\n'));
-    console.log(chalk.white(`  cd ${appName}`));
-    console.log(chalk.white('  npm install'));
-    console.log(chalk.white('  npx buildx402 wallet create  # Generate a wallet'));
-    console.log(chalk.white('  # Copy the env vars to .env.local'));
-    console.log(chalk.white('  npm run dev\n'));
+    // Prompt for npm install
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
 
-    console.log(chalk.gray('Documentation: https://github.com/davedumto/nex402'));
-    console.log(chalk.gray('Protocol: https://github.com/rvk-utd/x402\n'));
+    rl.question(chalk.cyan('\nInstall dependencies now? (Y/n) '), (answer) => {
+      rl.close();
+
+      const shouldInstall = !answer || answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes';
+
+      if (shouldInstall) {
+        console.log(chalk.cyan('\n📦 Installing dependencies...\n'));
+        try {
+          execSync('npm install', {
+            cwd: path.join(process.cwd(), appName),
+            stdio: 'inherit'
+          });
+          console.log(chalk.green('\n✅ Dependencies installed!\n'));
+        } catch (err) {
+          console.log(chalk.yellow('\n⚠️  Failed to install dependencies. Run npm install manually.\n'));
+        }
+      }
+
+      // Success message
+      console.log(chalk.green.bold('\n✅ Success! Your x402 app is ready.\n'));
+      console.log(chalk.cyan('Next steps:\n'));
+      console.log(chalk.white(`  cd ${appName}`));
+      if (!shouldInstall) {
+        console.log(chalk.white('  npm install'));
+      }
+      console.log(chalk.white('  npx buildx402 wallet create  # Generate a wallet'));
+      console.log(chalk.white('  # Copy the env vars to .env.local'));
+      console.log(chalk.white('  npm run dev\n'));
+
+      console.log(chalk.gray('Documentation: https://github.com/davedumto/nex402'));
+      console.log(chalk.gray('Protocol: https://github.com/rvk-utd/x402\n'));
+
+      // Exit successfully
+      process.exit(0);
+    });
 
   } catch (error) {
     spinner.fail(chalk.red('Failed to create app'));
