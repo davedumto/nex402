@@ -1,6 +1,6 @@
 {
   "name": "buildx402",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "CLI tool to scaffold x402 payment-gated Next.js applications on Aptos",
   "main": "bin/index.js",
   "type": "module",
